@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRACKS — 青春異常論</title>
+  <meta name="description" content="「青春異常論」楽曲一覧。9曲と9つの小説（Tales）の入口。" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ---- Track card extended ---- */
+    .track-card {
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .track-card-header {
+      display: grid;
+      grid-template-columns: 40px auto 1fr 20px;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      transition: background .2s;
+    }
+    @media (min-width: 600px) {
+      .track-card-header {
+        grid-template-columns: 40px 180px 1fr 20px;
+      }
+    }
+    .track-card-header:hover { background: rgba(79,195,247,.04); }
+
+    .track-card.locked .track-card-header { opacity: .55; }
+
+    .track-chevron {
+      justify-self: center;
+      font-size: .8rem;
+      color: var(--text-dim);
+      transition: transform .3s;
+    }
+    .track-card.open .track-chevron { transform: rotate(180deg); }
+    .track-card.locked .track-chevron { display: none; }
+
+    /* Expanding detail panel */
+    .track-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .45s cubic-bezier(.4,0,.2,1);
+      border-top: 1px solid transparent;
+    }
+    .track-card.open .track-detail {
+      max-height: 1500px;
+      border-top-color: rgba(79,195,247,.1);
+    }
+
+    .track-detail-inner {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .track-img {
+      width: 100%;
+      height: 250px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(79,195,247,.15);
+      background-color: #0a0a1a;
+    }
+    .track-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    .track-synopsis {
+      font-size: .88rem;
+      line-height: 1.9;
+      color: var(--text-muted);
+    }
+
+    /* Character card */
+    .chara-card {
+      display: flex;
+      gap: 18px;
+      background: rgba(79,195,247,.04);
+      border: 1px solid rgba(79,195,247,.12);
+      border-radius: 14px;
+      padding: 16px;
+      align-items: flex-start;
+    }
+
+    .chara-img-wrap {
+      flex-shrink: 0;
+      width: 90px;
+      height: 120px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(79,195,247,.2);
+      position: relative;
+    }
+    .chara-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .chara-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .chara-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .chara-name-ruby {
+      font-size: .65rem;
+      color: var(--text-dim);
+      letter-spacing: .1em;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .chara-handle {
+      font-size: .72rem;
+      color: var(--blue);
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .chara-desc {
+      font-size: .8rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+    .chara-theme {
+      margin-top: 8px;
+      font-size: .7rem;
+      color: var(--purple);
+      letter-spacing: .06em;
+    }
+
+    /* Lock badge */
+    .lock-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .62rem;
+      letter-spacing: .12em;
+      color: var(--text-dim);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px;
+      padding: 3px 9px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* Special track cards (Prologue / Epilogue) */
+    .track-card.special {
+      border-style: dashed;
+      border-color: rgba(179,157,219,.2);
+    }
+    .track-card.special .track-num {
+      color: var(--purple);
+    }
+
+    /* card entrance */
+    .track-card {
+      opacity: 0;
+      animation: cardIn .45s ease forwards;
+    }
+    @keyframes cardIn {
+      to { opacity:1; }
+    }
+
+    @media (max-width: 540px) {
+      .chara-card { flex-direction: column; }
+      .chara-img-wrap { width: 100%; height: 200px; }
+      .chara-img-wrap img { object-position: center 15%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-logo">青春異常論</span>
+  <button class="nav-toggle" aria-label="Toggle Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="https://salmon191749.studio.site" target="_blank" rel="noopener noreferrer">← Mistoria Official</a></li>
+    <li><a href="index.html">TOP</a></li>
+    <li><a href="story.html">STORY</a></li>
+    <li><a href="tracks.html">TRACKS</a></li>
+    <li><a href="ayn.html">AYN</a></li>
+  </ul>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <header class="tracks-header" data-fade>
+      <span class="label">TRACKS</span>
+      <h1 class="tracks-title">楽曲一覧</h1>
+      <p style="font-size:.82rem;color:var(--text-muted);margin-top:10px;">
+        9曲のうた、9人の声、1つの物語。
+      </p>
+    </header>
+
+    <ol class="tracks-list" id="tracksList" style="list-style:none;"></ol>
+
+  </div>
+</main>
+
+<footer class="footer">
+  © 低めの猫 / Mistoria — 青春異常論 / Anomalous Youth Network
+</footer>
+
+<script src="main.js"></script>
+<script>
+const TRACKS = [
+  {
+    num: 'Prologue',
+    name: 'Prologue',
+    special: true,
+    published: true,
+    musicUrl: 'https://open.spotify.com/intl-ja/track/2QaYdTewbb2fxVij72V0kk',
+    talesUrl: 'https://note.com/loki_lawcat/n/na5c3db750d85',
+    synopsis: '物語の幕が上がる前、AYNが最初にタイムラインに現れた日。誰が書いたのかわからない最初の一言——「ここは、正常じゃなかった者だけが辿り着く場所」。',
+    character: null,
+  },
+  {
+    num: '#1',
+    name: '青春世界燃焼社会',
+    special: false,
+    published: true,
+    musicUrl: 'https://open.spotify.com/intl-ja/track/3cKtqvvkAX3YF9JXX0xNDD',
+    talesUrl: 'https://tales.note.com/loki_lawcat/w943wwhzb7gcx/episodes/evow2pq21m2av',
+    synopsis: '灰野朱里は、毎晩スマホのいいね数を確認しないと眠れなかった。外では誰よりも明るく振る舞い、フォロワーにとって"正解"の自分を演じ続ける。そんなある夜、スマホのタイムラインに知らないアプリが現れた——数字のない、匿名のSNS「AYN」。初めて「数字がない世界」を知った朱里は、静かに燃え始める。',
+    character: {
+      name: '灰野朱里',
+      reading: 'すみの あかり',
+      handle: '@ash_2am',
+      imgSrc: 'char_akari.jpg',
+      desc: '暗めの赤髪、外面は学校一の明るいキャラ。しかしその笑顔の裏では、SNSのいいね数に一喜一憂し、常に承認を求め続けている。AYNに出会い、初めて「数字なしで言葉を流す」ことの意味を知る。',
+      theme: 'テーマ：SNS疲労 / 承認欲求 / 数字のない世界への解放',
+    },
+  },
+  { num: '#2', name: '青春炭酸人体', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/7tWV4SqHPbLShlkZ0bVFmd',
+    synopsis: '感情が弾けない。サイダーが抜けたような毎日——それでも誰かに届けようとする、炭酸みたいな青春の記録。', character: null },
+  { num: '#3', name: '青春偏差異常', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/272nm4evF24Yxghs0K9dsw', mvUrl: 'https://youtu.be/qXl7vC9nE4I',
+    synopsis: '平均偏差値の外側で生きる少女の話。「普通」という暴力と、はみ出すことの美しさ。', character: null },
+  { num: '#4', name: '青春無罪理論', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/64d7Lwy1sMkXMXq0lcyTMG',
+    synopsis: '何も悪いことをしていないのに、なぜか罪悪感を抱えて生きていた。AYNで初めて「無罪」の言葉を受け取った夜の話。', character: null },
+  { num: '#5', name: '青春有害物質', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/4gwsYTdwbuxh245R0oAGck', mvUrl: 'https://youtu.be/bZwd-sVlbJc',
+    synopsis: '「あなたは毒だ」と言われ続けた少女。有害物質として扱われながら、それでも誰かの役に立ちたかった。', character: null },
+  { num: '#6', name: '青春街路迷図', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/3J5m4hpkWyTb0RgWBNavDW',
+    synopsis: '帰り道をいつも間違える。それは地図が読めないのではなく、帰る場所がどこなのかわからないから。', character: null },
+  { num: '#7', name: '青春不適合者', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/1C7Qf8xDmq91AQdhUTP75x',
+    synopsis: '「あなたはここにいちゃいけない」——そう言われ続けた場所から、AYNだけが彼女を別の場所へ連れていった。', character: null },
+  { num: '#8', name: '青春不可逆反応', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/36vpD50mI7B6dNnwJHMCm0',
+    synopsis: '一度起きたことは元に戻らない、化学反応のように。でもそれは、変わってしまった証明でもある。', character: null },
+  { num: '#9', name: '青春文学未遂', special: false, published: true, musicUrl: 'https://open.spotify.com/intl-ja/track/4FdTwNNe88fom978OBnyJ5',
+    synopsis: '書きかけの小説、言いかけの言葉。「未遂」のまま終わった青春が、AYNの中だけで完成する。', character: null },
+  {
+    num: 'Epilogue',
+    name: 'Epilogue',
+    special: true,
+    published: true,
+    musicUrl: 'https://open.spotify.com/intl-ja/track/6tMqjTfjpLDfJZzuxTaPJM',
+    synopsis: '9人の少女たちの言葉が、最後にひとつのタイムラインに集まる。AYNに残された最後のメッセージ——「ここに来てよかった」。',
+    character: null,
+  },
+];
+
+const list = document.getElementById('tracksList');
+
+TRACKS.forEach((track, i) => {
+  const li = document.createElement('li');
+  const classes = ['track-card'];
+  if (track.special) classes.push('special');
+  if (!track.published) classes.push('locked');
+  li.className = classes.join(' ');
+  li.style.animationDelay = (i * 0.05) + 's';
+
+  const hasDetail = track.synopsis || track.character;
+
+  li.innerHTML = `
+    <div class="track-card-header">
+      <span class="track-num">${track.special ? '' : track.num}</span>
+      <span class="track-name" ${track.special ? 'style="color:var(--purple);font-weight:700;letter-spacing:0.1em;"' : ''}>${track.name}</span>
+      ${track.published ? `
+      <div class="track-actions">
+        ${track.musicUrl ? `<a href="${track.musicUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-blue" onclick="event.stopPropagation()">♪ 楽曲を聴く</a>` : `<div class="empty-btn"></div>`}
+        ${track.mvUrl ? `<a href="${track.mvUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-red" onclick="event.stopPropagation()">▶ MV</a>` : `<div class="empty-btn"></div>`}
+        ${track.talesUrl ? `<a href="${track.talesUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" onclick="event.stopPropagation()">📖 小説を読む</a>` 
+                         : `<span class="btn btn-ghost btn-disabled" onclick="event.stopPropagation()">📖 小説を読む (近日公開)</span>`}
+      </div>
+      ` : `<div class="track-actions"></div>`}
+      ${hasDetail ? '<span class="track-chevron">▾</span>' : '<span></span>'}
+    </div>
+    ${hasDetail ? `
+    <div class="track-detail">
+      <div class="track-detail-inner">
+        ${!track.special ? `
+        <div class="track-img">
+          <img src="assets/track_${track.num.replace('#', '').padStart(2, '0')}.png" alt="Scene for ${track.name}" loading="lazy" />
+        </div>
+        ` : ''}
+        ${track.synopsis ? `<p class="track-synopsis">${track.synopsis}</p>` : ''}
+        ${track.character ? `
+        <div class="chara-card">
+          <div class="chara-img-wrap">
+            <img src="${track.character.imgSrc}" alt="${track.character.name}" loading="lazy" />
+          </div>
+          <div class="chara-info">
+            <p class="chara-name">${track.character.name}</p>
+            <span class="chara-name-ruby">${track.character.reading}</span>
+            <span class="chara-handle">${track.character.handle}</span>
+            <p class="chara-desc">${track.character.desc}</p>
+            <p class="chara-theme">${track.character.theme}</p>
+          </div>
+        </div>
+        ` : ''}
+      </div>
+    </div>
+    ` : ''}
+  `;
+
+  // Toggle expand
+  if (hasDetail) {
+    li.querySelector('.track-card-header').addEventListener('click', () => {
+      if (li.classList.contains('open')) {
+        li.classList.remove('open');
+      } else {
+        // Close others
+        document.querySelectorAll('.track-card.open').forEach(el => el.classList.remove('open'));
+        li.classList.add('open');
+        // Auto-open first published track
+      }
+    });
+  }
+
+  list.appendChild(li);
+});
+
+// Auto-open #1 on load
+setTimeout(() => {
+  const first = document.querySelector('.track-card:not(.special)');
+  if (first) first.querySelector('.track-card-header')?.click();
+}, 300);
+</script>
+</body>
+</html>

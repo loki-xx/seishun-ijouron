@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>青春異常論 — Anomalous Youth Network</title>
+  <meta name="description" content="青春を正常に送れなかった者だけが辿り着く、匿名SNS。AIバンド Mistoria の新プロジェクト「青春異常論」特設サイト。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-logo">青春異常論</span>
+  <button class="nav-toggle" aria-label="Toggle Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="https://salmon191749.studio.site" target="_blank" rel="noopener noreferrer">← Mistoria Official</a></li>
+    <li><a href="index.html">TOP</a></li>
+    <li><a href="story.html">STORY</a></li>
+    <li><a href="tracks.html">TRACKS</a></li>
+    <li><a href="ayn.html">AYN</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<main class="hero" id="hero">
+
+  <!-- Flowing background text -->
+  <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <span class="label">MISTORIA presents</span>
+
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <h1 style="margin:0;padding:0;">
+          <img src="assets/title.png" alt="青春異常論" style="max-width:100%; width:600px; height:auto; display:block;" />
+        </h1>
+        <span class="hero-en mt-4">Anomalous Youth Network</span>
+      </div>
+    <div class="divider"></div>
+
+    <p class="hero-catch">
+      <em>青春を正常に送れなかった者だけ</em>が<br>
+      辿り着く、匿名SNS。
+    </p>
+
+    <nav class="hero-nav" aria-label="メニュー">
+      <a href="story.html" class="hero-card">
+        <span class="hero-card-en">STORY</span>
+        <span class="hero-card-ja">全体あらすじ</span>
+        <span class="hero-card-desc">9つの孤独が交差する物語</span>
+      </a>
+      <a href="tracks.html" class="hero-card">
+        <span class="hero-card-en">TRACKS</span>
+        <span class="hero-card-ja">楽曲一覧</span>
+        <span class="hero-card-desc">9曲と9つの小説</span>
+      </a>
+      <a href="ayn.html" class="hero-card">
+        <span class="hero-card-en">AYN</span>
+        <span class="hero-card-ja">AYN体験</span>
+        <span class="hero-card-desc">架空のSNSを覗いてみる</span>
+      </a>
+    </nav>
+  </div>
+</main>
+
+<footer class="footer">
+  © 低めの猫 / Mistoria — 青春異常論 / Anomalous Youth Network
+</footer>
+
+
+<script src="main.js"></script>
+<script>
+  /* Flowing background text */
+  (function () {
+    const bg = document.getElementById('heroBg');
+    const words = [
+      'また眠れなかった', '誰かに届いてますか',
+      '消えたいじゃなくて、休みたい', '深夜2時のほうが正直になれる',
+      '青春って言葉が怖い', '音楽だけが本当のことを言う',
+      '正常じゃなくてよかった', 'AYN', 'anomalous youth network',
+      '誰でもない誰か', 'おやすみ', '友達のふりがうまくなりすぎた',
+    ];
+    const lines = 8;
+    for (let i = 0; i < lines; i++) {
+      const track = document.createElement('div');
+      track.className = 'hero-bg-track';
+      const top = 5 + i * 12;
+      const dur = 28 + i * 4;
+      const delay = -(i * 6);
+      track.style.cssText = `top:${top}%;animation-duration:${dur}s;animation-delay:${delay}s`;
+      // Duplicate for seamless loop
+      let text = '';
+      for (let j = 0; j < 6; j++) {
+        text += words.map(w => w + '　　').join('');
+      }
+      // Duplicate for seamless scroll
+      track.textContent = text + text;
+      bg.appendChild(track);
+    }
+  })();
+</script>
+</body>
+</html>

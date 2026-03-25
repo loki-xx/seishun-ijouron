@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AYN — 青春異常論</title>
+  <meta name="description" content="「青春異常論」の物語内匿名SNS「AYN — Anomalous Youth Network」を体験する。" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* AYN page overrides full viewport height layout */
+    html, body { height: 100%; }
+    .ayn-page-wrap {
+      padding-top: 56px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .ayn-outer {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 16px 16px 24px;
+      min-height: 0;
+    }
+    .ayn-frame {
+      /* Override sticky — fill remaining height */
+      position: relative;
+      top: auto;
+      height: calc(100vh - 56px - 32px);
+      max-height: 820px;
+    }
+    @media (max-width: 540px) {
+      .ayn-frame {
+        height: calc(100vh - 56px - 16px);
+        border-radius: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-logo">青春異常論</span>
+  <button class="nav-toggle" aria-label="Toggle Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="https://salmon191749.studio.site" target="_blank" rel="noopener noreferrer">← Mistoria Official</a></li>
+    <li><a href="index.html">TOP</a></li>
+    <li><a href="story.html">STORY</a></li>
+    <li><a href="tracks.html">TRACKS</a></li>
+    <li><a href="ayn.html">AYN</a></li>
+  </ul>
+</nav>
+
+<div class="ayn-page-wrap">
+  <div class="ayn-outer">
+
+    <!-- AYN Phone Frame -->
+    <div class="ayn-frame" role="main" aria-label="AYN フィード">
+
+      <div class="ayn-header">
+        <div style="display:flex;align-items:center;">
+          <img src="assets/ayn_logo.png" alt="AYN Logo" style="height:36px;object-fit:contain;" />
+        </div>
+        <div class="ayn-time">
+          <div class="ayn-dot" aria-hidden="true"></div>
+          <span id="aynClock">02:14</span>
+        </div>
+      </div>
+
+
+      <!-- Feed -->
+      <div class="ayn-feed" id="ayn-feed" aria-live="polite" aria-label="タイムライン"></div>
+
+      <!-- Composer -->
+      <div class="ayn-composer">
+        <div class="ayn-composer-inner">
+          <textarea
+            id="ayn-input"
+            class="ayn-input"
+            placeholder="言葉を流す… (最大40字)"
+            rows="1"
+            maxlength="50"
+            aria-label="投稿テキスト入力"
+          ></textarea>
+          <button id="ayn-send" class="ayn-send" disabled>流す</button>
+        </div>
+        <div id="ayn-char" class="ayn-char">40 / 40</div>
+      </div>
+
+    </div><!-- /.ayn-frame -->
+
+    <!-- Desktop side panel -->
+    <div class="ayn-side">
+      <div class="ayn-panel">
+        <p class="ayn-panel-title">AYNとは</p>
+        <p class="ayn-panel-body">
+          青春を正常に送れなかった者だけが辿り着く、匿名SNS。誰が作ったのか、どこにサーバーがあるのかは、誰も知らない。
+        </p>
+      </div>
+      <div class="ayn-panel">
+        <p class="ayn-panel-title">利用方法</p>
+        <p class="ayn-panel-body">
+          アカウント登録は不要。画面下の入力欄から言葉を流すだけ。投稿はこのセッション内のみ表示され、リロードで消える。
+        </p>
+      </div>
+      <div class="ayn-panel">
+        <p class="ayn-panel-title">注意事項</p>
+        <p class="ayn-panel-body" style="font-size:0.75rem; color:var(--text-dim); opacity:0.6;">
+          このページはフィクションです。実際のSNSではありません。
+        </p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer" style="padding-bottom:12px;margin-top:auto;">
+  © 低めの猫 / Mistoria — 青春異常論 / Anomalous Youth Network
+</footer>
+
+<script src="main.js"></script>
+<script>
+  /* Live clock — frozen at 02:14 for atmosphere, ticks from there */
+  (function () {
+    const el = document.getElementById('aynClock');
+    let h = 2, m = 14;
+    setInterval(() => {
+      m++;
+      if (m >= 60) { m = 0; h = (h + 1) % 24; }
+      el.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+    }, 60000);
+  })();
+</script>
+</body>
+</html>
+
