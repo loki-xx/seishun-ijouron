@@ -56,8 +56,13 @@
 </nav>
 
 <div class="ayn-page-wrap">
-  <div class="ayn-outer">
+  <div class="container ayn-wrap" style="align-items:stretch;">
 
+    <div class="ayn-main-col">
+      <a href="https://twitter.com/intent/tweet?text=%E9%9D%92%E6%98%A5%E3%82%92%E6%AD%A3%E5%B8%B8%E3%81%AB%E9%80%81%E3%82%8C%E3%81%AA%E3%81%8B%E3%81%A3%E3%81%9F%E8%80%85%E3%81%8C%E8%BE%BF%E3%82%8A%E7%9D%80%E3%81%8F%E3%80%81%E5%8C%BF%E5%90%8DSNS%E3%80%8CAYN%E3%80%8D%E3%82%92%E4%BD%93%E9%A8%93%E3%81%97%E3%81%A6%E3%81%BF%E3%81%BE%E3%81%9B%E3%82%93%E3%81%8B%EF%BC%9F%20%23%E9%9D%92%E6%98%A5%E7%95%B0%E5%B8%B8%E8%AB%96%20%23AYN&url=https%3A%2F%2Floki-xx.github.io%2Fseishun-ijouron%2Fayn.html" target="_blank" rel="noopener noreferrer" class="btn btn-blue" style="justify-content:center; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+         <svg fill="currentColor" width="16" height="16" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 4.126H5.078z"/></svg> 
+         <span style="font-weight:700; margin-left:4px;">AYNをXでシェア</span>
+      </a>
     <!-- AYN Phone Frame -->
     <div class="ayn-frame" role="main" aria-label="AYN フィード">
 
@@ -65,73 +70,353 @@
         <div style="display:flex;align-items:center;">
           <img src="assets/ayn_logo.png" alt="AYN Logo" style="height:36px;object-fit:contain;" />
         </div>
+        <span class="ayn-header-desc" style="font-size:0.65rem;color:var(--text-dim);opacity:0.8;margin:0 auto;letter-spacing:0.05em;text-align:center;">異常な青春を持つ者のためのネットワーク</span>
         <div class="ayn-time">
           <div class="ayn-dot" aria-hidden="true"></div>
           <span id="aynClock">02:14</span>
         </div>
       </div>
 
+      <!-- Tabs -->
+      <div class="ayn-tabs">
+        <button class="ayn-tab-btn active" id="tabTimeline">タイムライン</button>
+        <button class="ayn-tab-btn" id="tabMyPosts">自分の投稿</button>
+      </div>
 
       <!-- Feed -->
-      <div class="ayn-feed" id="ayn-feed" aria-live="polite" aria-label="タイムライン"></div>
+      <div class="ayn-feed" aria-live="polite">
+        <div id="mergedFeed"></div>
+      </div>
 
       <!-- Composer -->
       <div class="ayn-composer">
+        <div class="ayn-composer-handle" id="aynCharHandle"></div>
         <div class="ayn-composer-inner">
-          <textarea
-            id="ayn-input"
-            class="ayn-input"
-            placeholder="言葉を流す… (最大40字)"
-            rows="1"
-            maxlength="50"
-            aria-label="投稿テキスト入力"
-          ></textarea>
-          <button id="ayn-send" class="ayn-send" disabled>流す</button>
+          <textarea id="aynInput" class="ayn-input" placeholder="ここになにか書く..." maxlength="140" rows="1"></textarea>
+          <button id="aynSend" class="ayn-send" disabled>流す</button>
         </div>
-        <div id="ayn-char" class="ayn-char">40 / 40</div>
+        <div class="ayn-char" id="aynChar"><span id="aynCharCount">0</span> / 140</div>
       </div>
 
     </div><!-- /.ayn-frame -->
+    </div><!-- /.ayn-main-col -->
 
     <!-- Desktop side panel -->
     <div class="ayn-side">
-      <div class="ayn-panel">
-        <p class="ayn-panel-title">AYNとは</p>
-        <p class="ayn-panel-body">
-          青春を正常に送れなかった者だけが辿り着く、匿名SNS。誰が作ったのか、どこにサーバーがあるのかは、誰も知らない。
-        </p>
-      </div>
+      <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; letter-spacing: .05em; color: var(--blue);">
+        # 青春異常論<br><span style="color:var(--text);font-size:.9rem;font-weight:400;">Anomalous Youth Network</span>
+      </h2>
+      
       <div class="ayn-panel">
         <p class="ayn-panel-title">利用方法</p>
         <p class="ayn-panel-body">
-          アカウント登録は不要。画面下の入力欄から言葉を流すだけ。投稿はこのセッション内のみ表示され、リロードで消える。
+          アカウント登録不要。画面下の入力欄から言葉を流すだけ。投稿はみんなと共有され、リアルタイムで表示されます。
         </p>
       </div>
       <div class="ayn-panel">
         <p class="ayn-panel-title">注意事項</p>
-        <p class="ayn-panel-body" style="font-size:0.75rem; color:var(--text-dim); opacity:0.6;">
-          このページはフィクションです。実際のSNSではありません。
+        <p class="ayn-panel-body" style="font-size: .75rem; opacity: .7;">
+          このサイトはフィクションです。<br>
+          公序良俗に反する投稿、個人を特定できる情報の書き込みはおやめください。<br>
+          投稿内容は作者ならびに「低めの猫 / Mistoria」が管理し、必要に応じて削除する場合があります。
         </p>
+      </div>
     </div>
+
   </div>
 </div>
 
-<footer class="footer" style="padding-bottom:12px;margin-top:auto;">
-  © 低めの猫 / Mistoria — 青春異常論 / Anomalous Youth Network
+<footer class="footer">
+  <p>&copy; 低めの猫 / Mistoria</p>
 </footer>
 
 <script src="main.js"></script>
-<script>
-  /* Live clock — frozen at 02:14 for atmosphere, ticks from there */
-  (function () {
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, setDoc, onSnapshot, query, orderBy, updateDoc, doc, increment, deleteDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBGBSpu9_7hmBoNKJ6rYntX9dmTGhmR518",
+    authDomain: "ayn-timeline.firebaseapp.com",
+    projectId: "ayn-timeline",
+    storageBucket: "ayn-timeline.firebasestorage.app",
+    messagingSenderId: "596813015487",
+    appId: "1:596813015487:web:59de57ce518583bf9c990a"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const mergedFeed = document.getElementById('mergedFeed');
+  const input = document.getElementById('aynInput');
+  const sendBtn = document.getElementById('aynSend');
+  const charDisplay = document.getElementById('aynChar');
+  const charCount = document.getElementById('aynCharCount');
+  const handleDisplay = document.getElementById('aynCharHandle');
+  const tabTimeline = document.getElementById('tabTimeline');
+  const tabMyPosts = document.getElementById('tabMyPosts');
+  const MAX = 140;
+
+  let currentTab = 'timeline';
+  let myHandle = localStorage.getItem('ayn_handle');
+  let firestorePosts = [];
+  let firebaseDummies = [];
+  let recentlyPostedIds = [];
+
+  const assignSortIndex = (id) => {
+    let hash = 0;
+    for(let i=0; i<id.length; i++) hash = Math.imul(31, hash) + id.charCodeAt(i) | 0;
+    return Math.abs(hash);
+  };
+
+  async function initHandle() {
+    if (!myHandle) {
+      try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        let sum = 0;
+        for(let i=0; i<data.ip.length; i++) sum += data.ip.charCodeAt(i);
+        const digits = String(sum * 1234).slice(-4);
+        myHandle = 'anonymous_' + digits;
+      } catch(e) {
+        myHandle = 'anonymous_' + String(Math.floor(1000 + Math.random() * 9000));
+      }
+      localStorage.setItem('ayn_handle', myHandle);
+    }
+    handleDisplay.textContent = '@' + myHandle;
+  }
+  initHandle();
+
+  setInterval(() => {
     const el = document.getElementById('aynClock');
-    let h = 2, m = 14;
-    setInterval(() => {
-      m++;
-      if (m >= 60) { m = 0; h = (h + 1) % 24; }
-      el.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
-    }, 60000);
-  })();
+    if (el) {
+      const d = new Date();
+      el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+    }
+  }, 1000);
+  const initialD = new Date();
+  document.getElementById('aynClock').textContent = String(initialD.getHours()).padStart(2,'0') + ':' + String(initialD.getMinutes()).padStart(2,'0');
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function renderPostRaw(postData, isNew = false, isPinnedGlow = false) {
+    const el = document.createElement('div');
+    el.className = 'ayn-post' + (isNew ? ' ayn-post-new' : '') + (isPinnedGlow ? ' ayn-post-new-glow' : '');
+    
+    let timeStr = postData.time;
+    if (postData.timestamp) {
+      const d = postData.timestamp.toDate ? postData.timestamp.toDate() : new Date(postData.timestamp);
+      timeStr = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }
+
+    const pid = postData.id;
+    const handle = postData.handle || 'anonymous';
+    const likes = postData.likes || 0;
+    const reposts = postData.reposts || 0;
+    const isOwn = handle === myHandle && !pid.startsWith('dummy_');
+    const isDeleteBtn = (currentTab === 'my_posts' && isOwn) ? 
+      `<button class="ayn-action-btn delete-btn" data-id="${pid}" aria-label="削除" title="削除">
+        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      </button>` : '';
+
+    const shareText = encodeURIComponent(`${postData.text}\n#青春異常論 #AYN`);
+    const shareUrl = encodeURIComponent('https://loki-xx.github.io/seishun-ijouron/ayn.html');
+    const shareLink = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+
+    el.innerHTML = `
+      <div class="ayn-post-header">
+        <span class="ayn-handle">@${escapeHtml(handle)}</span>
+        <span class="ayn-post-time">${escapeHtml(timeStr)}</span>
+      </div>
+      <p class="ayn-post-text">${escapeHtml(postData.text)}</p>
+      <div class="ayn-post-actions">
+        <button class="ayn-action-btn like-btn" data-id="${pid}">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span class="like-count">${likes}</span>
+        </button>
+        <button class="ayn-action-btn repost-btn" data-id="${pid}">
+          <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z"/></svg>
+          <span class="repost-count">${reposts}</span>
+        </button>
+        <a href="${shareLink}" target="_blank" rel="noopener noreferrer" class="ayn-action-btn share-post-btn" aria-label="シェア" title="Xでシェア">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 4.126H5.078z"/></svg>
+        </a>
+        <div style="flex:1;"></div>
+        ${isDeleteBtn}
+      </div>
+    `;
+    return el;
+  }
+
+  function renderAll() {
+    mergedFeed.innerHTML = '';
+    let displayPosts = [];
+    
+    if (currentTab === 'timeline') {
+      const neededDummies = Math.max(0, 20 - firestorePosts.length);
+      const activeDummies = firebaseDummies.slice(0, neededDummies);
+      const allPosts = [...activeDummies, ...firestorePosts].slice(0, 20);
+      
+      displayPosts = allPosts.sort((a,b) => {
+        const aPinned = recentlyPostedIds.includes(a.id) ? -1 : a.sortIndex;
+        const bPinned = recentlyPostedIds.includes(b.id) ? -1 : b.sortIndex;
+        if (aPinned === bPinned) return a.sortIndex - b.sortIndex;
+        return aPinned - bPinned;
+      });
+    } else {
+      displayPosts = firestorePosts.filter(p => p.handle === myHandle).sort((a,b) => {
+        const da = a.timestamp ? (a.timestamp.toDate ? a.timestamp.toDate() : new Date(a.timestamp)) : new Date();
+        const db = b.timestamp ? (b.timestamp.toDate ? b.timestamp.toDate() : new Date(b.timestamp)) : new Date();
+        return db - da; 
+      });
+    }
+
+    displayPosts.forEach(post => {
+      const isPinnedGlow = recentlyPostedIds.includes(post.id);
+      mergedFeed.appendChild(renderPostRaw(post, false, isPinnedGlow));
+    });
+  }
+
+  const baseDummies = [
+    { handle: 'unknown_0312',    text: 'また眠れなかった',                                   time: '02:14', likes: 12, reposts: 2 },
+    { handle: 'ash_2am',         text: '数字がない世界って、こんなに楽なんだ',               time: '02:11', likes: 45, reposts: 10 },
+    { handle: 'anonymous_7749',  text: '疲れた。ただそれだけ',                               time: '02:08', likes: 3, reposts: 0 },
+    { handle: 'silent_signal',   text: '誰かに届いてますか',                                 time: '01:58', likes: 7, reposts: 1 },
+    { handle: 'carbonated_girl', text: '感情が弾けない。サイダーが抜けたみたいに',           time: '01:47', likes: 21, reposts: 4 },
+    { handle: 'unknown_4421',    text: '灰になる瞬間が　いちばん綺麗だと思う',              time: '01:39', likes: 8, reposts: 0 },
+    { handle: 'deviation_me',    text: '平均からはみ出すことが怖い。でも平均でいることも苦しい', time: '01:28', likes: 50, reposts: 12 },
+    { handle: 'ayn_system',      text: 'わからなくていいと思う。わからないまま、ここにいていい', time: '01:17', likes: 110, reposts: 30 },
+    { handle: 'anonymous_2847',  text: '消えたいじゃなくて、休みたい',                      time: '01:02', likes: 85, reposts: 22 },
+    { handle: 'misfit_0107',     text: '青春って、なんで強要されるんだろう',                 time: '00:55', likes: 40, reposts: 8 },
+    { handle: 'ash_2am',         text: '他人の照明はいらない。自分の熱だけで照らしたい',    time: '00:44', likes: 60, reposts: 15 },
+    { handle: 'unknown_9981',    text: '孤独な夜に　誰かを見つけたら、もう一度だけ燃えてみよう', time: '00:31', likes: 27, reposts: 3 },
+    { handle: 'newcomer_3312',   text: 'ここに来てよかった',                                 time: '00:20', likes: 14, reposts: 1 },
+    { handle: 'wordonly',        text: '言葉だけでいい。数字はいらない',                     time: '00:09', likes: 102, reposts: 45 },
+    { handle: 'midnight_user',   text: '深夜2時。またここにいる',                            time: '00:01', likes: 30, reposts: 5 },
+  ];
+  // Re-roll sortIndex per page load for DUMMY to get different positions on reload!
+  const reloadSalt = Math.random().toString();
+  firebaseDummies = baseDummies.map((d, i) => {
+    const pid = 'dummy_' + i;
+    return { ...d, id: pid, sortIndex: assignSortIndex(pid + reloadSalt) };
+  });
+
+  tabTimeline.addEventListener('click', () => {
+    currentTab = 'timeline';
+    tabTimeline.classList.add('active');
+    tabMyPosts.classList.remove('active');
+    renderAll();
+  });
+  tabMyPosts.addEventListener('click', () => {
+    currentTab = 'my_posts';
+    tabMyPosts.classList.add('active');
+    tabTimeline.classList.remove('active');
+    renderAll();
+  });
+
+  const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+  onSnapshot(q, (snapshot) => {
+    firestorePosts = [];
+    snapshot.forEach((docSpan) => {
+      const data = docSpan.data();
+      data.id = docSpan.id;
+      data.sortIndex = assignSortIndex(data.id + reloadSalt); 
+      firestorePosts.push(data);
+    });
+    renderAll();
+  });
+
+  async function submitPost() {
+    const text = input.value.trim();
+    if (!text || text.length > MAX) return;
+    input.value = '';
+    sendBtn.disabled = true;
+    charCount.textContent = '0';
+    
+    try {
+      if (currentTab === 'my_posts') tabTimeline.click();
+
+      // Pre-generate ID to avoid race condition with onSnapshot
+      const docRef = doc(collection(db, "posts"));
+      recentlyPostedIds.push(docRef.id);
+
+      await setDoc(docRef, {
+        handle: myHandle,
+        text: text,
+        timestamp: new Date(),
+        likes: 0,
+        reposts: 0
+      });
+      
+      setTimeout(() => {
+        recentlyPostedIds = recentlyPostedIds.filter(id => id !== docRef.id);
+        renderAll();
+      }, 4000);
+
+      document.querySelector('.ayn-feed').scrollTo({top:0, behavior:'smooth'});
+    } catch(e) {
+      console.error(e);
+      alert('通信エラーが発生しました。ネットワークを確認してください。');
+      sendBtn.disabled = false;
+    }
+  }
+
+  sendBtn.addEventListener('click', submitPost);
+  input.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') submitPost();
+  });
+
+  input.addEventListener('input', () => {
+    const len = input.value.length;
+    charCount.textContent = len;
+    charDisplay.className = 'ayn-char' + (len > 120 ? (len > 140 ? ' over' : ' warn') : '');
+    sendBtn.disabled = !input.value.trim() || len > MAX;
+    
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 88) + 'px';
+  });
+
+  document.addEventListener('click', async (e) => {
+    const likeBtn = e.target.closest('.like-btn');
+    if (likeBtn) {
+      const id = likeBtn.getAttribute('data-id');
+      if (id && !id.startsWith('dummy_')) {
+        await updateDoc(doc(db, "posts", id), { likes: increment(1) }).catch(console.error);
+      } else {
+        const span = likeBtn.querySelector('.like-count');
+        span.textContent = parseInt(span.textContent || '0') + 1;
+      }
+    }
+
+    const repostBtn = e.target.closest('.repost-btn');
+    if (repostBtn) {
+      const id = repostBtn.getAttribute('data-id');
+      if (id && !id.startsWith('dummy_')) {
+        await updateDoc(doc(db, "posts", id), { reposts: increment(1) }).catch(console.error);
+      } else {
+        const span = repostBtn.querySelector('.repost-count');
+        span.textContent = parseInt(span.textContent || '0') + 1;
+      }
+    }
+
+    const delBtn = e.target.closest('.delete-btn');
+    if (delBtn) {
+      if (confirm('この投稿を削除しますか？')) {
+        const id = delBtn.getAttribute('data-id');
+        if (id && !id.startsWith('dummy_')) {
+          const postEl = delBtn.closest('.ayn-post');
+          if (postEl) postEl.style.display = 'none'; // Instant visual removal
+          await deleteDoc(doc(db, "posts", id)).catch((err) => {
+            console.error(err);
+            if (postEl) postEl.style.display = 'block'; // Revert if failed
+          });
+        }
+      }
+    }
+  });
 </script>
 </body>
 </html>

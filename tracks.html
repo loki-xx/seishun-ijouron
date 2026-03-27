@@ -352,11 +352,6 @@ TRACKS.forEach((track, i) => {
   list.appendChild(li);
 });
 
-// Auto-open #1 on load
-setTimeout(() => {
-  const first = document.querySelector('.track-card:not(.special)');
-  if (first) first.querySelector('.track-card-header')?.click();
-}, 300);
 </script>
 </body>
 </html>
