@@ -628,7 +628,11 @@ body::after {
 .ayn-feed {
   flex: 1;
   overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
   padding: 0;
+}
+.ayn-feed::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .ayn-post {

@@ -6,38 +6,48 @@
   <title>AYN — 青春異常論</title>
   <meta name="description" content="「青春異常論」の物語内匿名SNS「AYN — Anomalous Youth Network」を体験する。" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* AYN page overrides full viewport height layout */
-    html, body { height: 100%; }
-    .ayn-page-wrap {
-      padding-top: 56px;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .ayn-outer {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 24px;
-      padding: 16px 16px 24px;
-      min-height: 0;
-    }
+<style>
+  /* AYN page overrides full viewport height layout */
+  html, body { height: 100%; }
+  .ayn-page-wrap {
+    padding-top: 56px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .ayn-outer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 16px 16px 24px;
+    min-height: 0;
+  }
+  /* ↓ ここが追加・変更点 */
+  .ayn-wrap {
+    max-width: 680px;   /* 400 + 24 + 220 + 余白 でピッタリ固定 */
+    width: 100%;
+  }
+  .ayn-main-col {
+    flex: 1;            /* max-widthではなくflexで伸縮させる */
+    min-width: 0;
+    max-width: 400px;
+  }
+  /* ↑ ここまで */
+  .ayn-frame {
+    position: relative;
+    top: auto;
+    height: calc(100vh - 56px - 32px);
+    max-height: 820px;
+  }
+  @media (max-width: 540px) {
     .ayn-frame {
-      /* Override sticky — fill remaining height */
-      position: relative;
-      top: auto;
-      height: calc(100vh - 56px - 32px);
-      max-height: 820px;
+      height: calc(100vh - 56px - 16px);
+      border-radius: 16px;
     }
-    @media (max-width: 540px) {
-      .ayn-frame {
-        height: calc(100vh - 56px - 16px);
-        border-radius: 16px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
@@ -350,11 +360,6 @@
         likes: 0,
         reposts: 0
       });
-      
-      setTimeout(() => {
-        recentlyPostedIds = recentlyPostedIds.filter(id => id !== docRef.id);
-        renderAll();
-      }, 4000);
 
       document.querySelector('.ayn-feed').scrollTo({top:0, behavior:'smooth'});
     } catch(e) {
